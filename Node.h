@@ -57,6 +57,8 @@ public:
 	string returnLHash(void);
 	string returnRHash(void);
 	void printRecord(void);
+	vector<string> getLHist(void);
+	vector<string> getRHist(void);
 	//Node * returnParent_(void);
 	// Replacement functions
 
@@ -70,6 +72,8 @@ public:
 	void setParentID(string input);
 	void setID(string input);
 	void setRawE(string input);
+	void setLHist(vector<string> oldLHist);
+	void setRHist(vector<string> oldRHist);
 };
 
 #endif

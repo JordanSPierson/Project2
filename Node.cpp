@@ -77,3 +77,22 @@ void Node::setRawE(string input)
 {
 	rawE = input;
 }
+
+void Node::setLHist(vector<string> oldLHist)
+{
+	lHist = oldLHist;
+}
+void Node::setRHist(vector<string> oldRHist)
+{
+	rHist = oldRHist;
+}
+
+vector<string> Node::getLHist(void)
+{
+	return lHist;
+}
+
+vector<string> Node::getRHist(void)
+{
+	return rHist;
+}
