@@ -1,10 +1,12 @@
-
+//-------------------------------
 // Driver.cpp
 // Jordan Pierson & Todd Muller
 // COSC 2030, Fall 2018
 // Project 2, Tracking Tree:
 //  -Driver file
-//
+//-------------------------------
+
+
 #include <cstdlib>
 #include "Node.h"
 #include <iostream>
@@ -12,14 +14,18 @@
 #include <iomanip>
 #include <functional>
 #include <string>
-
 using namespace std;
 using std::setw;
 
+//---------------------------------------------
 // Function Prototypes
-string getRand(void);
-string hashFunc(string);
-void visualize(int, Node[]);
+//---------------------------------------------
+string getRand(void); //returns random string
+string hashFunc(string); //hashes string input and returns hash
+void visualize(int, Node[]); //prints contents of the tree
+int search(int, Node[], string); //searches for a node by ID value
+
+
 
 int main()
 {
@@ -50,51 +56,77 @@ int main()
 		<< "\nnew raw event and create a new node in the tree." << endl;
 	cout << "-----------------------------------------------------------" << endl << endl;
 
-	while (exit == false)		//		runs until the user exits
+
+	while (exit == false)		//runs until the user exits
 	{
-		cin >> input; //take in input from user
-		if (input == "E" || input == "Exit")
+		//take in input from user
+		cin >> input; 
+
+		if (input == "E" || input == "Exit" || input == "e")
 		{
 			exit = true; // exits the program
 		}
 
-		else if (input == "V" || input == "Visualize") // Print id values of nodes
+		else if (input == "V" || input == "Visualize" || input == "v") 
 		{
-			visualize(index, tree);
+			// prints Index, Rawe, Id, and 
+			// LHash and Rhash (updated) for each node
+			visualize(index, tree); 
 		}
 
-		else if (input == "S" || input == "Search")
+		else if (input == "S" || input == "Search" || input == "s") 
 		{
-			cout << "Type in and ID value to search for:" << endl;
+			// Searches for tree based on ID value
+			// Returns RawE at the ID value
+			cout << "\nType in and ID value to search for:" << endl;
 			string sID;
 			cin >> sID;
-			for (int i = 0; i < sizeArray && i <= index; i++)
-			{
-				if (tree[i].returnID() == sID)
-				{
-					cout << sID << " found. Printing Record:" << endl;
-					tree[i].printRecord();
-					i = sizeArray + 1; // exits loop;
-					sID = "Found"; // now uses sID for different purpose: telling if the variable was found or not
-				}
+			int found = search(index, tree, sID);
 
-			}
-			if (sID != "Found")
+			if (found >= 1)
 			{
-				cout << "The ID you searched for was not found.\n"
+				cout << "\n" << sID << " found. Printing Histories:" << endl;
+				tree[found].printRecord();
+			}
+			else
+			{
+				cout << "\nThe ID you searched for was not found.\n"
 					<< "Returning to main command line." << endl;
-
+				break;
 			}
-
-
 		}
-		else if (input == "U" || input == "Update")
+
+		else if (input == "U" || input == "Update" || input == "u")
 		{
 			// still needs done
-			cout << "Update Node: \nWhat Node do you want to update? (give ID value)" << endl;
+			cout << "Update Node: \nWhat Node do you want to update? (give ID value):" << endl;
 			string iDVal;
 			cin >> iDVal;
+			int found = search(index, tree, iDVal);
 
+			if (found >= 1)
+			{
+				cout << "\n" << iDVal << " found. Current contents are: "
+					<< tree[found].returnRawE()
+					<< "\nWhat would you like to change it's contents to? ('CANCEL' to cancel update)" << endl;
+				string contents;
+				cin >> contents;
+				if (contents != "CANCEL")
+				{
+					tree[found].setRawE(contents);
+				}
+				else
+				{
+					cout << "Update Cancelled. Returning to main command line." << endl;
+					break;
+				}
+			}
+			else
+			{
+				cout << "\nThe ID you searched for was not found.\n"
+					<< "Returning to main command line." << endl;
+				break;
+			}
 		}
 		else
 		{
@@ -156,15 +188,16 @@ int main()
 		
 			
 
-			//now create a new node at the next available slot
+			// now initialize a new node at the next available slot
 			index++;
-			tree[index].setRawE(input); //set rawE to input
-			//tree[1].setRawE("sadday");
-			//tree[2].setRawE("hi");
-			tree[index].setParentID(tree[index / 2].returnID());	// set parent ID to it's parent using integer division (P= N/2)
+			// set rawE to input
+			tree[index].setRawE(input); 
+			// set parent ID to it's parent using integer division (P= N/2)
+			tree[index].setParentID(tree[index / 2].returnID());
 			
-																	// Now make the current nodes ID by hashing parentID + rawE
+			// Now make the current node's ID by hashing parentID + rawE
 			tree[index].setID(hashFunc(tree[index].returnParentID() + tree[index].returnRawE()));
+
 			//------------------------------------------------------
 			// Now percolate up, update parents LHash / RHash
 			//------------------------------------------------------
@@ -220,10 +253,7 @@ int main()
 					relation = "right";
 				}
 				prevChildI = i; //save current node index for the next time around loop
-
-				
 			}
-
 		}
 	}
 
@@ -232,6 +262,7 @@ int main()
 	return 0;
 }
 
+// returns random string used for the first node
 string getRand(void)
 {
 	const int len = 8;
@@ -250,6 +281,8 @@ string getRand(void)
 	return s;
 }
 
+// Hash function. Currently uses STL std::hash
+// create own function for bonus points
 string hashFunc(string input)
 {
 	//cout << input;
@@ -259,45 +292,36 @@ string hashFunc(string input)
 	return to_string(h1);
 }
 
+// Prints contents of the tree
 void visualize(int index, Node theArray[])
 {
 	cout << "\nPrinting Contents of the Tree:" << endl
-		<< "---------------------------------" << endl
-		<< "Node" << setw(12) << "RawE" << setw(12) << "ID" << endl;
-	cout << "---------------------------------" << endl;
+		<< "----------------------------------------------------------" << endl
+		<< "Node" << setw(12) << "RawE" << setw(12) << "ID" << setw(15) << "R-Hash" << setw(12) << "L-Hash" << endl;
+	cout << "----------------------------------------------------------" << endl;
 	for (int i = 1; i <= index; i++)
 	{
 		cout << setw(2) << i << setw(14) << theArray[i].returnRawE()
-			<< setw(16) << theArray[i].returnID() << endl;
-		/*if (theArray[i].returnRawE().empty())
-		{
-			cout << "empty";
-		}*/
+			<< setw(16) << theArray[i].returnID() << setw(12) 
+			<< theArray[i].returnRHash() << setw(12) 
+			<< theArray[i].returnLHash() << endl;
 	}
-	//cout << theArray[3].returnRawE();
 }
 
-void search(int index, Node theArray[])
+// Searches for a node based on ID value
+// once found it returns that nodes index in the array
+int search(int index, Node theArray[], string sID)
 {
-	cout << "Type in and ID value to search for:" << endl;
-	string sID;
-	cin >> sID;
-	for (int i = 0; i <= index; i++)
+	int result = 0;// 0th element contains nothing,
+				   // used here more as a SENTINEL
+
+	for (int i = 1; i <= index; i++)
 	{
-		if (theArray[i].returnID() == sID)
+		if (theArray[i].returnID() == sID) //if the ID is found:
 		{
-			cout << sID << " found. Printing Record:" << endl;
-			theArray[i].printRecord();
-			i = index + 1; // exits loop;
-			sID = "Found"; // now uses sID for different purpose: telling if the variable was found or not
+			result = i; // return the index value of the element
+			i = index + 1; //exit the for loop;
 		}
-
 	}
-	if (sID != "Found")
-	{
-		cout << "The ID you searched for was not found.\n"
-			<< "Returning to main command line." << endl;
-
-	}
-
+	return result; //result will equal either index of found element or 0;
 }

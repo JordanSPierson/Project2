@@ -1,10 +1,10 @@
-
+//-------------------------------
 // Node.h
 // Jordan Pierson & Todd Muller
 // COSC 2030, Fall 2018
 // Project 2, Tracking Tree:
 //  -Prototype for the Node class
-//
+//-------------------------------
 
 #pragma once
 
@@ -17,6 +17,8 @@ using std::string;
 using std::vector;
 #include<iostream>
 using namespace std;
+#include <iomanip>
+using std::setw;
 
 // -----------------------------------------------------------------------------
 // Node Class:
@@ -29,9 +31,6 @@ using namespace std;
 class Node
 {
 private:
-
-	Node * left_;
-	Node * right_;
 
 	// String variables for nodes.
 	// All should be of fixed size (8)
@@ -49,23 +48,6 @@ private:
 
 public:
 
-	// Node class constructor
-	/*
-	Node() :
-		left_(NULL),
-		right_(NULL),
-		iD(NULL), // Make sure to initialize based on hash of rawE and parentID
-		parentID(NULL), // Should initialize with randomly generated string
-		rawE(NULL), // Should also be randomly generated at first
-		lHash(NULL),
-		rHash(NULL),
-		lHist(NULL),
-		rHist(NULL)
-	{
-		// initialization, do we need to do something here??
-	}
-	*/
-
 	// Accessor Functions
 	string returnID(void);
 	string returnParentID(void);
@@ -73,6 +55,7 @@ public:
 	Node * returnLeft_(void);
 	Node * returnRight_(void);
 	string returnLHash(void);
+	string returnRHash(void);
 	void printRecord(void);
 	//Node * returnParent_(void);
 	// Replacement functions
@@ -84,15 +67,9 @@ public:
 	void newRHash(string input);
 
 	//set methods
-
 	void setParentID(string input);
 	void setID(string input);
 	void setRawE(string input);
-
-	// change pointers
-	//void newChildLeft_(Node child);
-	//void newChildRight_(Node child);
-
 };
 
 #endif

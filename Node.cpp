@@ -1,10 +1,10 @@
-
+//-------------------------------
 // Node.cpp
 // Jordan Pierson & Todd Muller
 // COSC 2030, Fall 2018
 // Project 2, Tracking Tree:
 //  -Function definitions for the Node class
-//
+//-------------------------------
 
 #include "Node.h"
 
@@ -24,18 +24,15 @@ string Node::returnRawE(void)
 {
 	return rawE;
 }
-Node * Node::returnLeft_(void)
-{
-	return left_;
-}
-Node * Node::returnRight_(void)
-{
-	return right_;
-}
 
 string Node::returnLHash(void)
 {
-	return string();
+	return lHash;
+}
+
+string Node::returnRHash(void)
+{
+	return rHash;
 }
 
 void Node::printRecord(void)
@@ -80,23 +77,3 @@ void Node::setRawE(string input)
 {
 	rawE = input;
 }
-//string returnLHash(void)
-//{
-//	return lHash;
-//}
-
-// Replacement functions
-
-// newLHash and newRHash both change the respective variable
-// as well as add the same input to the vectors 
-// lHist and rHist
-//void newLHash(string input)
-//{
-//	lHash = input;
-//	lHist.push_back(input);
-//}
-
-
-// change pointers
-//void newChildLeft_(Node child);
-//void newChildRight_(Node child);
