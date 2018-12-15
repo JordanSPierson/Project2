@@ -152,7 +152,7 @@ int main()
 								+ tree[i].returnID()				// parent ID
 								+ tree[prevChildI].returnRawE()		// child rawE
 								+ tree[prevChildI].returnLHash()	// child lHash
-								+ tree[prevChildI].returnLHash())); // child rHash
+								+ tree[prevChildI].returnRHash())); // child rHash
 
 						}
 						if (relation == "right") // if the child is the right then update RHash
@@ -162,7 +162,7 @@ int main()
 								+ tree[i].returnID()				// parent ID
 								+ tree[prevChildI].returnRawE()		// child rawE
 								+ tree[prevChildI].returnLHash()	// child lHash
-								+ tree[prevChildI].returnLHash())); // child rHash
+								+ tree[prevChildI].returnRHash())); // child rHash
 						}
 
 						// Same as preliminary things, but now for the next time around. 
@@ -276,7 +276,7 @@ int main()
 						+ tree[i].returnID()				// parent ID
 						+ tree[prevChildI].returnRawE()		// child rawE
 						+ tree[prevChildI].returnLHash()	// child lHash
-						+ tree[prevChildI].returnLHash())); // child rHash
+						+ tree[prevChildI].returnRHash())); // child rHash
 					
 				}
 				if (relation == "right") // if the child is the right then update RHash
@@ -286,7 +286,7 @@ int main()
 						+ tree[i].returnID()				// parent ID
 						+ tree[prevChildI].returnRawE()		// child rawE
 						+ tree[prevChildI].returnLHash()	// child lHash
-						+ tree[prevChildI].returnLHash())); // child rHash
+						+ tree[prevChildI].returnRHash())); // child rHash
 				}
 
 				// Same as preliminary things, but now for the next time around. 
